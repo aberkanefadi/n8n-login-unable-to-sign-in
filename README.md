@@ -7,16 +7,16 @@ if you see that error while trying to login to your n8n instance, and you alread
 
 first starting with the database that you are using whether it is SQLite or PostgreSQL, i have faced that issue while i am using PostgreSQL so my solution will be based on that.
 
-1- i want you to connect to your postgresql database using that command:
-sudo -u postgres psql -d <database name>
-2- do this command: 
+1-i want you to connect to your postgresql database using that command:
+sudo -u postgres psql -d (database name)
+2-do this command: 
 SELECT "password", email, "settings", disabled FROM "user";
-3- if settings says: {"userActivated": false} then do:
+3-if settings says: {"userActivated": false} then do:
 UPDATE "user"
 SET "settings" = '{"userActivated": true}'
 WHERE "email" = 'your email';
-4- exit the db using: \q
-5- then restart n8n
+4-exit the db using: \q
+5-then restart n8n
 if this still not working we need to change the password, go to Bcrypt generator online write a password then encrypt it using 10 rounds, take the resulted hash and do connect to your db as step 1 then update the password credential as follows:
 UPDATE "user"
 SET "password" = '$2a$10$hash_goes_here'
